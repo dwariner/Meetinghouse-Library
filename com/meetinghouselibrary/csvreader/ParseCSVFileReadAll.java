@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-//import org.apache.commons.io.FileUtils;
 import com.opencsv.CSVReader;
 
 	
@@ -18,47 +17,33 @@ import com.opencsv.CSVReader;
 
 	public static void main(String[] args) 
 	{
-	        //String filename = "C:\\Users\\dwariner\\Dropbox\\Media Server Library.csv";
-	        //String filename = "C:\\Users\\dwariner\\Dropbox\\GeoIPCountryCSV\\GeoIPCountryWhois.csv";
-	        //CSVReader reader = new CSVReader(new FileReader(file), ',', '\'', 1);  //code to skip first row.
-//			File localFile = new File("wpcsv-export.csv");
-//			URL link = new URL("http://meetinghouselibrary.com/");
-//			if(link){
-//					DownloadFile download = new DownloadFile(localFile, link);
-//			           	threadPool.execute(download);
-//			        
-//					}
-//			        threadPool.shutdown();
-//				}
-//			catch (FileNotFoundException e) 
-//			{
-//			  logInfo(e.getMessage());
-//			}
-//			catch (IOException e) 
-//			{
-//			  logInfo(e.getMessage());
-//			}
-			//File link = "http://meetinghouselibrary.com";
-			//String = "/Users/dwariner/Downloads/wpcsv-export1.csv";
-		
-			//DownloadFile download = new DownloadFile(localFile, link);
-			//org.apache.commons.io.FileUtils.copyURLToFile(New URL(driver.getCurrentURL("http://meetinghouselibrary.org")), New File("/Users/dwariner/Downloads/wpcsv-export1.csv"));
-		//DownloadFileFromURL Test1 = new DownloadFileFromURL();
-			String[] filenames = new String[]{"file1.csv", "file2.csv"};// instantiate String array with file names
-			DownloadFileFromURL.main(filenames);
-			String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
-			//for (String filenameArg : filenames)
-			//{
-			//	ParseCSVFileReadAll parseCSVFile = new ParseCSVFileReadAll();
-
-//		        System.out.println("Starting to parse CSV file using opencsv");
-//		        parseCSVFile.parseUsingOpenCSV(filenameArg);
-				
-//			}
-			ParseCSVFileReadAll parseCSVFile = new ParseCSVFileReadAll();
-
-	        System.out.println("Starting to parse CSV file using opencsv");
-	        parseCSVFile.parseUsingOpenCSV(filename);
+	       
+			  //String[] filenames = new String[]{"http://meetinghouselibrary.com/?wpdmdl=10334"
+			//		  							, "http://meetinghouselibrary.com/?wpdmdl=10340"};// instantiate String array with file names
+			  DownloadFileFromURL.main(null);
+			  DownloadLibraries.main(null);
+			  //String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
+			  File aDirectory = new File(System.getProperty("user.dir")+"/Media Libraries/");
+			  String workingDir = System.getProperty("user.dir")+"/Media Libraries/";
+			  //File aDirectory = new File(workingDir);
+			  System.out.println(aDirectory);
+			  String[] filesInDir = aDirectory.list();
+			  for ( int i=0; i<filesInDir.length; i++ )
+			    {
+			      System.out.println( "file: " + filesInDir[i] );
+			    }
+						
+			  for (String filenameArg : filesInDir)
+			  {
+					ParseCSVFileReadAll parseCSVFile = new ParseCSVFileReadAll();
+	
+			        System.out.println("Starting to parse CSV Library files using opencsv");
+			        parseCSVFile.parseUsingOpenCSV(workingDir+filenameArg);				
+			  }
+//			ParseCSVFileReadAll parseCSVFile = new ParseCSVFileReadAll();
+//
+//	        System.out.println("Starting to parse CSV file using opencsv");
+//	        parseCSVFile.parseUsingOpenCSV(filename);
 	}
 
 	
@@ -74,7 +59,12 @@ import com.opencsv.CSVReader;
 	 CSVReader reader;
 	  try 
 	  {
-		  String localdirectory = "/Users/dwariner/Movies/Meetinghouse Library";  
+		  //String localdirectory = "/Users/dwariner/Downloads/Meetinghouse Library/Media/";
+		  String localDirectory = System.getProperty("user.dir")+"/Media/";
+		  //String localDirectory = "Media/";
+		  
+		  System.out.println(filename);
+		  
 		  reader = new CSVReader(new FileReader(filename));
 	        String[] row;
 	        List<?> content = reader.readAll();
@@ -91,10 +81,10 @@ import com.opencsv.CSVReader;
                 //System.out.println("Cell column index: " + i);
                 //System.out.println("Cell Value: " + row[i]);
                 //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
-                logInfo("File Name:   " + localdirectory+row[8]+"/"+row[13]);
-                logInfo("Server Name: " + localdirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
+                logInfo("File Name:   " + localDirectory+row[8]+"/"+row[13]);
+                logInfo("Server Name: " + localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
                 logInfo("URL:         " + row[9]);
-                logInfo("Directory:   " + localdirectory+row[8]);
+                logInfo("Directory:   " + localDirectory+row[8]);
                 if (row[9] != null && !row[9].isEmpty()) {
                 logInfo("Media Type:  " + row[9].substring(row[9].length()-3));
                 }
@@ -108,11 +98,11 @@ import com.opencsv.CSVReader;
                 //if (row[8] != null && !row[8].isEmpty())
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
 	            URL link = new URL(row[9]);
-	            //String fulllocalpath = localdirectory+row[3];
-	            File localDir = new File(localdirectory+row[8]); //The file that will be saved on your computer
+	            //String fulllocalpath = localDirectory+row[3];
+	            File localDir = new File(localDirectory+row[8]); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
-	        	File localFile = new File(localdirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-	        	File localFileName = new File(localdirectory+row[8]+"/"+row[13]);
+	        	File localFile = new File(localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
+	        	File localFileName = new File(localDirectory+row[8]+"/"+row[13]);
 	        	//File localFile = new File(row[3]+row[1]+"."+row[2].substring(row[2].length()-3)); //The file that will be saved on your computer
 	        	 
 
