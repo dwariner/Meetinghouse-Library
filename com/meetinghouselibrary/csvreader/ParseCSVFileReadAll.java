@@ -23,8 +23,8 @@ import com.opencsv.CSVReader;
 			  DownloadFileFromURL.main(null);
 			  DownloadLibraries.main(null);
 			  //String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
-			  File aDirectory = new File(System.getProperty("user.dir")+"/Media Libraries/");
-			  String workingDir = System.getProperty("user.dir")+"/Media Libraries/";
+			  File aDirectory = new File(System.getProperty("user.dir")+"/Media Index/");
+			  String workingDir = System.getProperty("user.dir")+"/Media Index/";
 			  //File aDirectory = new File(workingDir);
 			  System.out.println(aDirectory);
 			  String[] filesInDir = aDirectory.list();
@@ -60,7 +60,7 @@ import com.opencsv.CSVReader;
 	  try 
 	  {
 		  //String localdirectory = "/Users/dwariner/Downloads/Meetinghouse Library/Media/";
-		  String localDirectory = System.getProperty("user.dir")+"/Media/";
+		  String localDirectory = System.getProperty("user.dir")+"/Media Library/";
 		  //String localDirectory = "Media/";
 		  
 		  System.out.println(filename);

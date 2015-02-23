@@ -23,16 +23,27 @@ public class DownloadLibraries {
 			//String filename = "/Users/dwariner/Downloads/Meetinghouse Library/Library Manager.csv";
 			String workingDir = System.getProperty("user.dir");
 			System.out.println("Current working directory : " + workingDir);
-			String filename = workingDir+"/Library Manager.csv";
+			String f1 = null;
+			File file = new File(workingDir+"/My Library Manager.csv");
+			if (file.exists()) {
+					f1 = workingDir+"/My Library Manager.csv";
+    				logInfo("Using My Library Manager");
+    			} else {
+    				f1 = workingDir+"/Library Manager.csv";
+    				logInfo("Using Master Library Manager");
+    		}
+			
 			DownloadLibraries parseCSVFile = new DownloadLibraries();
 
 	        System.out.println("Starting to parse CSV file using opencsv");
-	        parseCSVFile.parseUsingOpenCSV(filename);
+	        
+			String filename = f1;
+			parseCSVFile.parseUsingOpenCSV(filename);
 	}
 
 	
 
-	private void logInfo(String info) {
+	private static void logInfo(String info) {
 		// open file
 		// append to file. with a date and time stamp.
 		// close file.
@@ -45,7 +56,7 @@ public class DownloadLibraries {
 	  {
 		  //String localdirectory = "/Users/dwariner/Downloads/Meetinghouse Library/Libraries/";
 		  //String localDirectory = "Libraries/";
-		  String localDirectory = System.getProperty("user.dir")+"/Media Libraries/";
+		  String localDirectory = System.getProperty("user.dir")+"/Media Index/";
 		  reader = new CSVReader(new FileReader(filename));
 	        String[] row;
 	        List<?> content = reader.readAll();
@@ -84,7 +95,7 @@ public class DownloadLibraries {
                 
                 //if (row[8] != null && !row[8].isEmpty())
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
-                String downloadFlag = new String(row[0]);
+                //String downloadFlag = new String(row[0]);
                 URL link = new URL(row[2]);
 	            //String fulllocalpath = localDirectory+row[3];
 	            File localDir = new File(localDirectory); //The file that will be saved on your computer
@@ -96,14 +107,12 @@ public class DownloadLibraries {
 	        	 
 //	        	if(localFileName.renameTo(localFile)){
 //    	            logInfo("File Name found and renamed success");
+//
 //	        	}
-	        	if(downloadFlag == "Yes"){
-    	            logInfo("File was downloaded success");
-	        	//}
-//	        		if (localFile.exists()) {
-//		        		 logInfo("Local File already exists. Skipping...");
-//		        		 
-//		        		 continue;
+	        		if (localFile.exists()) {
+		        		 logInfo("Local File already exists. Skipping...");
+		        		 
+		        		 continue;
 		        	} else {      		
 		        		if (!localDir.exists()) {
 			        		if (localDir.mkdirs()) {
@@ -114,7 +123,8 @@ public class DownloadLibraries {
 		        		}
 		        		logInfo("Downloading new file...");
 		        	}
-		           	DownloadFile download = new DownloadFile(localFile, link);
+		           	
+	        		DownloadFile download = new DownloadFile(localFile, link);
 		           	threadPool.execute(download);
 		        }
 		        
