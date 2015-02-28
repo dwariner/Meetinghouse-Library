@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -59,8 +60,41 @@ import com.opencsv.CSVReader;
 	 CSVReader reader;
 	  try 
 	  {
-		  //String localdirectory = "/Users/dwariner/Downloads/Meetinghouse Library/Media/";
-		  String localDirectory = System.getProperty("user.dir")+"/Media Library/";
+		  
+		  try (FileReader configReader = new FileReader("config.properties")) {
+				Properties properties = new Properties();
+				properties.load(configReader);
+				String mediaLibrary1 = properties.getProperty("mediaDirectory");
+				System.out.println(mediaLibrary1);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		  
+		  String mediaLibrary1 = null;
+		String mediaLibrary = mediaLibrary1;
+		  
+		  //Calling to get the properties file to find out what directory to download the media in.
+		  
+		//String args = new String();
+		//String mediaLibrary = "/Users/dwariner/Downloads/Meetinghouse Library/Media Library/";
+		  //DownloadFile download = new DownloadFile(localFile, link);
+		  //mediaDirectory11 = new ReadPropertiesFile();
+			//getReadPropertiesFile();
+		  //ReadPropertiesFile.main(null);
+		  //logInfo("directoryName " + args);
+//		  String workingDir = System.getProperty("user.dir");
+//			System.out.println("Current working directory : " + workingDir);
+//			ReadPropertiesFile mediaLibrary = null;
+//			File file = new File(workingDir+"/My Properties.csv");
+//			if (file.exists()) {
+//				mediaLibrary = mediaDirectory11;
+//  				logInfo("Using My Properties File");
+//  			} else {
+//  				mediaLibrary = workingDir+mediaDirectory11;
+//  				logInfo("Using Default Media Library");
+//  		}
+			
+		  //String localDirectory = System.getProperty("user.dir")+"/Media Library/";
 		  //String localDirectory = "Media/";
 		  
 		  System.out.println(filename);
@@ -81,10 +115,10 @@ import com.opencsv.CSVReader;
                 //System.out.println("Cell column index: " + i);
                 //System.out.println("Cell Value: " + row[i]);
                 //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
-                logInfo("File Name:   " + localDirectory+row[8]+"/"+row[13]);
-                logInfo("Server Name: " + localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
+                logInfo("File Name:   " + mediaLibrary+row[8]+"/"+row[13]);
+                logInfo("Server Name: " + mediaLibrary+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
                 logInfo("URL:         " + row[9]);
-                logInfo("Directory:   " + localDirectory+row[8]);
+                logInfo("Directory:   " + mediaLibrary+row[8]);
                 if (row[9] != null && !row[9].isEmpty()) {
                 logInfo("Media Type:  " + row[9].substring(row[9].length()-3));
                 }
@@ -98,11 +132,11 @@ import com.opencsv.CSVReader;
                 //if (row[8] != null && !row[8].isEmpty())
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
 	            URL link = new URL(row[9]);
-	            //String fulllocalpath = localDirectory+row[3];
-	            File localDir = new File(localDirectory+row[8]); //The file that will be saved on your computer
+	            //String fulllocalpath = mediaLibrary+row[3];
+	            File localDir = new File(mediaLibrary+row[8]); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
-	        	File localFile = new File(localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-	        	File localFileName = new File(localDirectory+row[8]+"/"+row[13]);
+	        	File localFile = new File(mediaLibrary+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
+	        	File localFileName = new File(mediaLibrary+row[8]+"/"+row[13]);
 	        	//File localFile = new File(row[3]+row[1]+"."+row[2].substring(row[2].length()-3)); //The file that will be saved on your computer
 	        	 
 
@@ -116,6 +150,9 @@ import com.opencsv.CSVReader;
 //	        	File file = new File(dir, "filename.txt");
 //	        	FileWriter newJsp = new FileWriter(file);
 	        	//if (row[2] != null && !row[2].isEmpty()) {
+	        	
+	        	// TODO If 720p link is blank then move to 1080p then if blank then 360p video download
+	        if(link != null) {
 	        	if(localFileName.renameTo(localFile)){
     	            logInfo("File Name found and renamed success");
 	        	}
@@ -154,8 +191,10 @@ import com.opencsv.CSVReader;
 		        		}
 		        		logInfo("Downloading new file...");
 		        	}
-		           	DownloadFile download = new DownloadFile(localFile, link);
+		           	
+	        		DownloadFile download = new DownloadFile(localFile, link);
 		           	threadPool.execute(download);
+		           	}
 		        }
 		        
 		        threadPool.shutdown();
@@ -169,4 +208,4 @@ import com.opencsv.CSVReader;
 		  logInfo(e.getMessage());
 	  }
 	  }
-	}
+}

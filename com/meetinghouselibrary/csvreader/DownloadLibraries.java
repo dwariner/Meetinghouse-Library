@@ -49,7 +49,7 @@ public class DownloadLibraries {
 		// close file.
 		System.out.println(info);
 	}
-	private void parseUsingOpenCSV(String filename) 
+	void parseUsingOpenCSV(String filename) 
 	 {
 	 CSVReader reader;
 	  try 
