@@ -1,4 +1,4 @@
-package manageproperties;
+package com.meetinghouselibrary.csvreader;
 
 import java.util.Properties;
 
