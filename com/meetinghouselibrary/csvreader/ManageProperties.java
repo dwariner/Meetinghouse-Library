@@ -17,7 +17,9 @@ public class ManageProperties {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
         Date curDate = new Date();
         Properties myProps;
-        myProps = ManageConfigProperties.getConfigProperties("MyLDSMediaLibrary", "config.properties");
+        myProps = ManageConfigProperties.getConfigProperties("Meetinghouse Library", "config.properties");
+        String mediaLibrary = myProps.getProperty("mediaDirectory", "");
+        System.out.println(mediaLibrary);
 
         if (myProps.containsKey("mydatetime")) {
             // update property with new date & time
@@ -26,7 +28,7 @@ public class ManageProperties {
             // create new property key
             myProps.put("mydatetime", sdf.format(curDate));
         }
-        ManageConfigProperties.saveConfigProperties(myProps, "MyLDSMediaLibrary", "config.properties");
+        ManageConfigProperties.saveConfigProperties(myProps, "Meetinghouse Library", "config.properties");
     }
     
 }

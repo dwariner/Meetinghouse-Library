@@ -61,19 +61,13 @@ import com.opencsv.CSVReader;
 	  try 
 	  {
 		  
-		  try (FileReader configReader = new FileReader("config.properties")) {
-				Properties properties = new Properties();
-				properties.load(configReader);
-				String mediaLibrary1 = properties.getProperty("mediaDirectory");
-				System.out.println(mediaLibrary1);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		  
-		  String mediaLibrary1 = null;
-		String mediaLibrary = mediaLibrary1;
-		  
+		  		  
 		  //Calling to get the properties file to find out what directory to download the media in.
+		  Properties myProps = ManageConfigProperties.getConfigProperties("Meetinghouse Library", "config.properties");
+	      String mediaLibrary = myProps.getProperty("mediaDirectory", "");
+	      System.out.println(mediaLibrary);
+	     
+		  
 		  
 		//String args = new String();
 		//String mediaLibrary = "/Users/dwariner/Downloads/Meetinghouse Library/Media Library/";

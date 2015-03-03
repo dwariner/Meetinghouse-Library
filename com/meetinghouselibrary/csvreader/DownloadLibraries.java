@@ -21,15 +21,27 @@ public class DownloadLibraries {
 	{
 		
 			//String filename = "/Users/dwariner/Downloads/Meetinghouse Library/Library Manager.csv";
+			StringBuilder sb = new StringBuilder();
+	        sb.append(System.getProperty("user.dir"))
+	                .append(File.separator)
+	                .append("Library Manager.csv");
+	        String FileName = sb.toString();
+	        
+	        StringBuilder mysb = new StringBuilder();
+	        sb.append(System.getProperty("user.dir"))
+	                .append(File.separator)
+	                .append("My Library Manager.csv");
+	        String myFileName = mysb.toString();
+		
 			String workingDir = System.getProperty("user.dir");
 			System.out.println("Current working directory : " + workingDir);
 			String f1 = null;
-			File file = new File(workingDir+"/My Library Manager.csv");
+			File file = new File(myFileName);
 			if (file.exists()) {
-					f1 = workingDir+"/My Library Manager.csv";
+					f1 = myFileName;
     				logInfo("Using My Library Manager");
     			} else {
-    				f1 = workingDir+"/Library Manager.csv";
+    				f1 = FileName;
     				logInfo("Using Master Library Manager");
     		}
 			
@@ -56,7 +68,15 @@ public class DownloadLibraries {
 	  {
 		  //String localdirectory = "/Users/dwariner/Downloads/Meetinghouse Library/Libraries/";
 		  //String localDirectory = "Libraries/";
-		  String localDirectory = System.getProperty("user.dir")+"/Media Index/";
+		  
+		  StringBuilder sb = new StringBuilder();
+	        sb.append(System.getProperty("user.dir"))
+	                .append(File.separator)
+	                .append("Media Index")
+	                .append(File.separator);
+	        String localDirectory = sb.toString();
+		  
+		  //String localDirectory = System.getProperty("user.dir")+"/Media Index/";
 		  reader = new CSVReader(new FileReader(filename));
 	        String[] row;
 	        List<?> content = reader.readAll();
@@ -80,11 +100,11 @@ public class DownloadLibraries {
                 //System.out.println("Cell Value: " + row[i]);
                 //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
                 //logInfo("File Name:   " + localDirectory+row[8]+"/"+row[13]);
-                logInfo("Download:    " + row[0]);
-                logInfo("File Name:   " + row[1]+".csv");
-                logInfo("Directory:   " + localDirectory);
+                //logInfo("Download:    " + row[0]);
+                logInfo("File Name:   " + row[0]+".csv");
+                logInfo("Directory:   " + localDirectory+row[0]+".csv");
                 //logInfo("Server Name: " + localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-                logInfo("URL:         " + row[2]);
+                logInfo("URL:         " + row[1]);
                 //logInfo("Directory:   " + localDirectory+row[8]);
                 //if (row[9] != null && !row[9].isEmpty()) {
                 //logInfo("Media Type:  " + row[9].substring(row[9].length()-3));
@@ -96,12 +116,13 @@ public class DownloadLibraries {
                 //if (row[8] != null && !row[8].isEmpty())
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
                 //String downloadFlag = new String(row[0]);
-                URL link = new URL(row[2]);
+                URL link = new URL(row[1]);
 	            //String fulllocalpath = localDirectory+row[3];
 	            File localDir = new File(localDirectory); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
 	        	//File localFile = new File(localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-	        	File localFile = new File(localDirectory+row[1]+".csv");
+	        	File localFile = new File(localDirectory+row[0]+".csv");
+	        	
 	        	//File localFileName = new File(localdirectory+row[1]+".csv");
 	        	//File localFile = new File(row[3]+row[1]+"."+row[2].substring(row[2].length()-3)); //The file that will be saved on your computer
 	        	 
@@ -109,20 +130,20 @@ public class DownloadLibraries {
 //    	            logInfo("File Name found and renamed success");
 //
 //	        	}
-	        		if (localFile.exists()) {
-		        		 logInfo("Local File already exists. Skipping...");
-		        		 
-		        		 continue;
-		        	} else {      		
-		        		if (!localDir.exists()) {
+//	        		if (localFile.exists()) {
+//		        		 logInfo("Local File already exists. Skipping...");
+//		        		 
+//		        		 continue;
+//		        	} else {      		
+//		        		if (!localDir.exists()) {
 			        		if (localDir.mkdirs()) {
 			    				logInfo("Directory is created!");
 			    			} else {
 			    				logInfo("Local Directory already exists. Skipping...");
 			    			}
-		        		}
-		        		logInfo("Downloading new file...");
-		        	}
+//		        		}
+//		        		logInfo("Downloading new file...");
+//		        	}
 		           	
 	        		DownloadFile download = new DownloadFile(localFile, link);
 		           	threadPool.execute(download);
