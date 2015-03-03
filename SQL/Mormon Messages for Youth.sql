@@ -21,7 +21,7 @@ FROM (
     LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
     WHERE `wp_posts`.`post_status` = 'publish'
     AND `wp_posts`.`post_type` = 'post'
-    AND wtt.taxonomy = 'category' AND wt.`slug`IN ('relief-society')
+    AND wtt.taxonomy = 'category' AND wt.`slug`IN ('mormon-messages-for-youth')
 
     GROUP BY `wp_posts`.`ID`
 
