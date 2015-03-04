@@ -3,30 +3,46 @@ FROM (
     SELECT 
         wp_posts.post_title AS `Title`,
 
-        MAX( CASE WHEN `wp_postmeta`.`meta_key` = "directory"
-        THEN `wp_postmeta`.`meta_value`
-        END ) AS `Directory`,
+        MAX( CASE WHEN wp_postmeta.meta_key = "directory_video"
+        THEN wp_postmeta.meta_value
+        END ) AS `Video Directory`,
         
         MAX( CASE WHEN wp_postmeta.meta_key = "download_url_1080p"
         THEN wp_postmeta.meta_value
-        END ) AS `1080p`,
+        END ) AS `1080p URL`,
         
         MAX( CASE WHEN wp_postmeta.meta_key = "download_url_720p"
         THEN wp_postmeta.meta_value
-        END ) AS `720p`,
+        END ) AS `720p URL`,
         
         MAX( CASE WHEN wp_postmeta.meta_key = "download_url_360p"
         THEN wp_postmeta.meta_value
-        END ) AS `360p`,
-        
-        MAX( CASE WHEN wp_postmeta.meta_key = "file_name"
+        END ) AS `360p URL`,
+         
+        MAX( CASE WHEN wp_postmeta.meta_key = "file_name_720p"
         THEN wp_postmeta.meta_value
-        END ) AS `File Name`,
+        END ) AS `File Name 720p`,
+        
+        MAX( CASE WHEN wp_postmeta.meta_key = "directory_audio"
+        THEN wp_postmeta.meta_value
+        END ) AS `Audio Directory`,
+        
+        MAX( CASE WHEN wp_postmeta.meta_key = "audio_url"
+        THEN wp_postmeta.meta_value
+        END ) AS `Audio URL`,
+        
+        MAX( CASE WHEN wp_postmeta.meta_key = "directory_doc"
+        THEN wp_postmeta.meta_value
+        END ) AS `Document Directory`,
+        
+        MAX( CASE WHEN wp_postmeta.meta_key = "document_url"
+        THEN wp_postmeta.meta_value
+        END ) AS `Document URL`,
         
         wt.name AS Category,
         
-        MAX( CASE WHEN `wp_postmeta`.`meta_key` = "guid"
-        THEN `wp_postmeta`.`meta_value`
+        MAX( CASE WHEN wp_postmeta.meta_key = "guid"
+        THEN wp_postmeta.meta_value
         END ) AS `GUID`
 
     FROM `wp_posts`
