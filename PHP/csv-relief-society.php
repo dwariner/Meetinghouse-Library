@@ -12,7 +12,7 @@
         // output headers so that the file is downloaded rather than displayed
         //header('Content-Type: text/csv; charset=utf-8');
         //header('Content-Disposition: attachment; filename=pikaObs_'.date("Ymd").'.csv');            
-        $filepath = $_SERVER["DOCUMENT_ROOT"] . "/wp-content/uploads/download-manager-files/Relief Society.csv";
+        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/Relief Society.csv";
         //echo $filepath;
 
         // create a file pointer connected to the output stream
