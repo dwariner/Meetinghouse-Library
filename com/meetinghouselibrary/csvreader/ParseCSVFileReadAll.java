@@ -20,7 +20,7 @@ import com.opencsv.CSVReader;
 	{
 	       
 			  //String[] filenames = new String[]{"http://meetinghouselibrary.com/?wpdmdl=10334"
-			//		  							, "http://meetinghouselibrary.com/?wpdmdl=10340"};// instantiate String array with file names
+			  //	  							, "http://meetinghouselibrary.com/?wpdmdl=10340"};// instantiate String array with file names
 			  DownloadFileFromURL.main(null);
 			  DownloadLibraries.main(null);
 			  //String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
@@ -63,7 +63,10 @@ import com.opencsv.CSVReader;
 		  
 		  		  
 		  //Calling to get the properties file to find out what directory to download the media in.
-		  Properties myProps = ManageConfigProperties.getConfigProperties("Meetinghouse Library", "config.properties");
+		  StringBuilder sb = new StringBuilder();
+	        //sb.append(System.getProperty("user.dir"));
+	        String myDirectory = sb.toString();
+		  Properties myProps = ManageConfigProperties.getConfigProperties(myDirectory, "config.properties");
 	      String mediaLibrary = myProps.getProperty("mediaDirectory", "");
 	      System.out.println(mediaLibrary);
 	     
@@ -108,14 +111,14 @@ import com.opencsv.CSVReader;
                         // display CSV values
                 //System.out.println("Cell column index: " + i);
                 //System.out.println("Cell Value: " + row[i]);
-                //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
-                logInfo("File Name:   " + mediaLibrary+row[8]+"/"+row[13]);
-                logInfo("Server Name: " + mediaLibrary+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-                logInfo("URL:         " + row[9]);
-                logInfo("Directory:   " + mediaLibrary+row[8]);
-                if (row[9] != null && !row[9].isEmpty()) {
-                logInfo("Media Type:  " + row[9].substring(row[9].length()-3));
-                }
+                //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
+                logInfo("File Name:   " + mediaLibrary+row[1]+"/"+row[5]);
+                logInfo("Server Name: " + mediaLibrary+row[1]+"/"+row[0]+"."+row[5].substring(row[5].length()-3));   
+                //logInfo("URL:         " + row[3]);
+                logInfo("Directory:   " + mediaLibrary+row[1]);
+//                if (row[3] != null && !row[3].isEmpty()) {
+//                logInfo("Media Type:  " + row[3].substring(row[3].length()-3));
+//                }
                 logInfo("-------------");
 	                //}
 	          
@@ -123,15 +126,34 @@ import com.opencsv.CSVReader;
                 	firstRow = false;
                 	continue;
                 }
-                //if (row[8] != null && !row[8].isEmpty())
-	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
-	            URL link = new URL(row[9]);
-	            //String fulllocalpath = mediaLibrary+row[3];
-	            File localDir = new File(mediaLibrary+row[8]); //The file that will be saved on your computer
+                //if (row[1] != null && !row[1].isEmpty())
+	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
+	            //URL link = new URL(row[3]);
+                
+                String findLink;
+				//If 720p link is blank then move to 1080p then if blank then 360p video download
+                if (row[3] !=null && row[3].length()>0){
+                	//720p Download URL
+                	findLink = row[3];
+                logInfo("URL 720p:    " + row[3]);
+                } else if (row[2] !=null && row[2].length()>0) {
+                	//1080p Download URL
+                	findLink = row[2];
+                logInfo("URL 1080p:   " + row[2]);
+                } else {
+                	//360p Download URL
+                	findLink = row[4];
+                logInfo("URL 360p:    " + row[4]);
+                }
+				URL link = new URL(findLink);
+				logInfo("URL link:    " + link);
+                
+	            //String fulllocalpath = mediaLibrary+row[2];
+	            File localDir = new File(mediaLibrary+row[1]); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
-	        	File localFile = new File(mediaLibrary+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-	        	File localFileName = new File(mediaLibrary+row[8]+"/"+row[13]);
-	        	//File localFile = new File(row[3]+row[1]+"."+row[2].substring(row[2].length()-3)); //The file that will be saved on your computer
+	        	File localFile = new File(mediaLibrary+row[1]+"/"+row[0]+"."+row[5].substring(row[5].length()-3));
+	        	File localFileName = new File(mediaLibrary+row[1]+"/"+row[5]);
+	        	//File localFile = new File(row[2]+row[1]+"."+row[1].substring(row[1].length()-3)); //The file that will be saved on your computer
 	        	 
 
 	        	
@@ -143,37 +165,14 @@ import com.opencsv.CSVReader;
 	        	//localFile.mkdirs();
 //	        	File file = new File(dir, "filename.txt");
 //	        	FileWriter newJsp = new FileWriter(file);
-	        	//if (row[2] != null && !row[2].isEmpty()) {
-	        	
-	        	// TODO If 720p link is blank then move to 1080p then if blank then 360p video download
-	        if(link != null) {
+	        	//if (row[1] != null && !row[1].isEmpty()) {
+	        	    	
+	        
 	        	if(localFileName.renameTo(localFile)){
     	            logInfo("File Name found and renamed success");
 	        	}
 	        		if (localFile.exists()) {
 		        		 logInfo("Local File already exists. Skipping...");
-		        		// File (or directory) with old name
-//		        		    File file = new File("oldname");
-//
-//		        		    // File (or directory) with new name
-//		        		    File file2 = new File("newname");
-//		        		    if(file2.exists()) throw new java.io.IOException("file exists");
-//
-//		        		    // Rename file (or directory)
-//		        		    boolean success = file.renameTo(file2);
-//		        		    if (!success) {
-//		        		        // File was not successfully renamed
-//		        		    }
-		        		 
-//		        		 if(localFileName.renameTo(localFile)){
-//		        	            System.out.println("File rename success");;
-//		        	        }else{
-//		        	            System.out.println("File rename already exists");
-//		        	       
-//		        	            continue;
-//		        	        }
-		        		 
-		        		 
 		        		 continue;
 		        	} else {      		
 		        		if (!localDir.exists()) {
@@ -189,7 +188,6 @@ import com.opencsv.CSVReader;
 	        		DownloadFile download = new DownloadFile(localFile, link);
 		           	threadPool.execute(download);
 		           	}
-		        }
 		        
 		        threadPool.shutdown();
 		  }

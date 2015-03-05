@@ -17,7 +17,13 @@ public class ManageProperties {
         SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy hh:mm:ss");
         Date curDate = new Date();
         Properties myProps;
-        myProps = ManageConfigProperties.getConfigProperties("Meetinghouse Library", "config.properties");
+        
+        StringBuilder sb = new StringBuilder();
+        //sb.append(System.getProperty("user.dir"));
+        String myDirectory = sb.toString();
+        
+        
+        myProps = ManageConfigProperties.getConfigProperties(myDirectory, "config.properties");
         String mediaLibrary = myProps.getProperty("mediaDirectory", "");
         System.out.println(mediaLibrary);
 
@@ -28,7 +34,7 @@ public class ManageProperties {
             // create new property key
             myProps.put("mydatetime", sdf.format(curDate));
         }
-        ManageConfigProperties.saveConfigProperties(myProps, "Meetinghouse Library", "config.properties");
+        ManageConfigProperties.saveConfigProperties(myProps, myDirectory, "config.properties");
     }
     
 }
