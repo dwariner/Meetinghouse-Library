@@ -24,8 +24,9 @@ import com.opencsv.CSVReader;
 			  DownloadFileFromURL.main(null);
 			  DownloadLibraries.main(null);
 			  //String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
-			  File aDirectory = new File(System.getProperty("user.dir")+"/Media Index/");
-			  String workingDir = System.getProperty("user.dir")+"/Media Index/";
+			  //"path"+File.Seperator+"to"+File.Seperator+"some"+File.Seperator+"file"
+			  File aDirectory = new File(System.getProperty("user.dir")+File.separator+"Media Index"+File.separator);
+			  String workingDir = System.getProperty("user.dir")+File.separator+"Media Index"+File.separator;
 			  //File aDirectory = new File(workingDir);
 			  System.out.println(aDirectory);
 			  String[] filesInDir = aDirectory.list();
@@ -112,10 +113,10 @@ import com.opencsv.CSVReader;
                 //System.out.println("Cell column index: " + i);
                 //System.out.println("Cell Value: " + row[i]);
                 //logInfo("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
-                logInfo("File Name:   " + mediaLibrary+row[1]+"/"+row[5]);
-                logInfo("Server Name: " + mediaLibrary+row[1]+"/"+row[0]+"."+row[5].substring(row[5].length()-3));   
+                //logInfo("File Name:   " + mediaLibrary+row[1]+"/"+row[5]);
+                //logInfo("Server Name: " + mediaLibrary+row[1]+"/"+row[0]+"."+row[5].substring(row[5].length()-3));   
                 //logInfo("URL:         " + row[3]);
-                logInfo("Directory:   " + mediaLibrary+row[1]);
+                //logInfo("Directory:   " + mediaLibrary+row[1]);
 //                if (row[3] != null && !row[3].isEmpty()) {
 //                logInfo("Media Type:  " + row[3].substring(row[3].length()-3));
 //                }
@@ -129,6 +130,34 @@ import com.opencsv.CSVReader;
                 //if (row[1] != null && !row[1].isEmpty())
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
 	            //URL link = new URL(row[3]);
+                
+                String dirSeparator = row[1].replaceAll("/", File.separator);
+                
+                StringBuilder sbDir = new StringBuilder();
+                   sbDir.append(mediaLibrary)
+		                .append(dirSeparator);
+		        String builtDir = sbDir.toString();
+		        logInfo("Directory:   " + builtDir);
+		        
+		        StringBuilder sbLF = new StringBuilder();
+		        	sbLF.append(mediaLibrary)
+		                .append(dirSeparator)
+		                .append(File.separator)
+		                .append(row[0])
+		                .append(".")
+		                .append(row[5].substring(row[5].length()-3));
+		        String builtLocalFile = sbLF.toString();
+		        logInfo("Title Name:  " + builtLocalFile);
+		        
+		        StringBuilder sbFN = new StringBuilder();
+		            sbFN.append(mediaLibrary)
+		                .append(dirSeparator)
+		                .append(File.separator)
+		                .append(row[5]);
+		        String builtLocalFileName = sbFN.toString();
+		        logInfo("File Name:   " + builtLocalFileName);
+                
+                
                 
                 String findLink;
 				//If 720p link is blank then move to 1080p then if blank then 360p video download
@@ -148,11 +177,11 @@ import com.opencsv.CSVReader;
 				URL link = new URL(findLink);
 				logInfo("URL link:    " + link);
                 
-	            //String fulllocalpath = mediaLibrary+row[2];
-	            File localDir = new File(mediaLibrary+row[1]); //The file that will be saved on your computer
+				//String fulllocalpath = mediaLibrary+row[2];
+	            File localDir = new File(builtDir); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
-	        	File localFile = new File(mediaLibrary+row[1]+"/"+row[0]+"."+row[5].substring(row[5].length()-3));
-	        	File localFileName = new File(mediaLibrary+row[1]+"/"+row[5]);
+	        	File localFile = new File(builtLocalFile);
+	        	File localFileName = new File(builtLocalFileName);
 	        	//File localFile = new File(row[2]+row[1]+"."+row[1].substring(row[1].length()-3)); //The file that will be saved on your computer
 	        	 
 
