@@ -20,7 +20,7 @@
 
 
         // output the column headings
-        fputcsv($output, array('Title','Video Directory','1080p URL','720p URL','360p URL','File Name 720p','Audio Directory','Audio URL','Document Directory','Document URL','Category','GUID'));
+        fputcsv($output, array('Title','Video Directory','1080p URL','720p URL','360p URL','File Name 720p','Audio Directory','Audio URL','Document Directory','Document URL','Category','Released','YouTube URL','GUID'));
 
         // fetch the data
         mysql_connect($hostname, $username, $password);
@@ -68,23 +68,37 @@ FROM (
         
         wt.name AS Category,
         
+        MAX( CASE WHEN wp_postmeta.meta_key = "released"
+        THEN wp_postmeta.meta_value
+        END ) AS `Released`,
+
+        MAX( CASE WHEN wp_postmeta.meta_key = "video_url"
+        THEN wp_postmeta.meta_value
+        END ) AS `YouTube URL`,
+        
         MAX( CASE WHEN wp_postmeta.meta_key = "guid"
         THEN wp_postmeta.meta_value
         END ) AS `GUID`
 
     FROM `wp_posts`
-
+    LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
     INNER JOIN `wp_term_relationships` wtr ON (wp_posts.`ID` = wtr.`object_id`)
     INNER JOIN `wp_term_taxonomy` wtt ON (wtr.`term_taxonomy_id` = wtt.`term_taxonomy_id`)
     INNER JOIN `wp_terms` wt ON (wt.`term_id` = wtt.`term_id`)
-    LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
+
     WHERE `wp_posts`.`post_status` = "publish"
+
     AND `wp_posts`.`post_type` = "post"
-    AND wtt.taxonomy = "category" AND wt.`slug`IN ("relief-society")
+    AND `wtt`.`taxonomy` = "category" AND `wt`.`slug`IN ("relief-society")
+    AND     (       SELECT COUNT(*) FROM wp_postmeta
+                WHERE wp_postmeta.post_id = wp_posts.ID 
+                AND wp_postmeta.meta_key = "released"
+                AND wp_postmeta.meta_value != ""
+                ) >= 1
 
     GROUP BY `wp_posts`.`ID`
 
-    ORDER BY `wt`.`name`
+    ORDER BY `wp_posts`.`post_name`
 
 ) AS `t` WHERE 1 =1');
 
