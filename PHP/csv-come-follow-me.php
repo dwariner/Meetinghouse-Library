@@ -12,7 +12,7 @@
         // output headers so that the file is downloaded rather than displayed
         //header('Content-Type: text/csv; charset=utf-8');
         //header('Content-Disposition: attachment; filename=pikaObs_'.date("Ymd").'.csv');            
-        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/Relief Society.csv";
+        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/Come Follow Me.csv";
         //echo $filepath;
 
         // create a file pointer connected to the output stream
@@ -71,7 +71,7 @@ FROM (
         MAX( CASE WHEN wp_postmeta.meta_key = "release_date"
         THEN wp_postmeta.meta_value
         END ) AS `Release Date`,
-
+        
         MAX( CASE WHEN wp_postmeta.meta_key = "video_url"
         THEN wp_postmeta.meta_value
         END ) AS `YouTube URL`,
@@ -80,17 +80,30 @@ FROM (
         THEN wp_postmeta.meta_value
         END ) AS `GUID`
 
+
     FROM `wp_posts`
-    LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
+
     INNER JOIN `wp_term_relationships` wtr ON (wp_posts.`ID` = wtr.`object_id`)
     INNER JOIN `wp_term_taxonomy` wtt ON (wtr.`term_taxonomy_id` = wtt.`term_taxonomy_id`)
     INNER JOIN `wp_terms` wt ON (wt.`term_id` = wtt.`term_id`)
+    LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
 
     WHERE `wp_posts`.`post_status` = "publish"
-
     AND `wp_posts`.`post_type` = "post"
-    AND `wtt`.`taxonomy` = "category" AND `wt`.`slug`IN ("relief-society")
-    AND     (       SELECT COUNT(*) FROM wp_postmeta
+    AND `wtt`.`taxonomy` = "category" 
+    AND `wt`.`slug`IN ("january-come-follow-me"
+                      ,"february-come-follow-me"
+                      ,"march-come-follow-me"
+                      ,"april-come-follow-me"
+                      ,"may-come-follow-me"
+                      ,"june-come-follow-me"
+                      ,"july-come-follow-me"
+                      ,"august-come-follow-me"
+                      ,"september-come-follow-me"
+                      ,"october-come-follow-me"
+                      ,"november-come-follow-me"
+                      ,"december-come-follow-me")
+    AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"
                 AND wp_postmeta.meta_value != ""
@@ -98,13 +111,13 @@ FROM (
 
     GROUP BY `wp_posts`.`ID`
 
-    ORDER BY `wp_posts`.`post_name`
+    ORDER BY `wt`.`name`
 
 ) AS `t` WHERE 1 =1');
 
         // loop over the rows, outputting them
         while ($row = mysql_fetch_assoc($rows)) fputcsv($output, $row);
 
-        //exit;    
+        //exit;
 
 ?>

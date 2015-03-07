@@ -41,9 +41,9 @@ FROM (
         
         wt.name AS Category,
         
-        MAX( CASE WHEN wp_postmeta.meta_key = "released"
+        MAX( CASE WHEN wp_postmeta.meta_key = "release_date"
         THEN wp_postmeta.meta_value
-        END ) AS `Released`,
+        END ) AS `Release Date`,
         
         MAX( CASE WHEN wp_postmeta.meta_key = "video_url"
         THEN wp_postmeta.meta_value
@@ -73,7 +73,7 @@ FROM (
                       ,"2009-mormon-messages")
 	AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
-                AND wp_postmeta.meta_key = "released"
+                AND wp_postmeta.meta_key = "release_date"
                 AND wp_postmeta.meta_value != ""
                 ) >= 1
 
