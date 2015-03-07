@@ -107,8 +107,17 @@ public class DownloadLibraries {
                 logInfo("URL:         " + row[1]);
                 //logInfo("Directory:   " + localDirectory+row[8]);
                 //if (row[9] != null && !row[9].isEmpty()) {
-                //logInfo("Media Type:  " + row[9].substring(row[9].length()-3));
+                //logInfo("Media Type:  " + row[9].substring(row[9].length()-3));             
                 //}
+                
+                StringBuilder sbLF = new StringBuilder();
+	        	sbLF.append(localDirectory)
+	                .append(row[0])
+	                .append(".csv");
+	        	String builtLocalFile = sbLF.toString();
+	        	logInfo("CSV Name:   " + builtLocalFile);
+                
+                
                 logInfo("-------------");
 	                //}
 	          
@@ -121,7 +130,7 @@ public class DownloadLibraries {
 	            File localDir = new File(localDirectory); //The file that will be saved on your computer
 	        	//File localDir = new File(fulllocalpath); //The file that will be saved on your computer
 	        	//File localFile = new File(localDirectory+row[8]+"/"+row[3]+"."+row[9].substring(row[9].length()-3));
-	        	File localFile = new File(localDirectory+row[0]+".csv");
+	        	File localFile = new File(builtLocalFile);
 	        	
 	        	//File localFileName = new File(localdirectory+row[1]+".csv");
 	        	//File localFile = new File(row[3]+row[1]+"."+row[2].substring(row[2].length()-3)); //The file that will be saved on your computer

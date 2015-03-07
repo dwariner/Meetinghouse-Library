@@ -18,13 +18,14 @@ public class ManageProperties {
         Date curDate = new Date();
         Properties myProps;
         
-        StringBuilder sb = new StringBuilder();
+        //StringBuilder sb = new StringBuilder();
         //sb.append(System.getProperty("user.dir"));
-        String myDirectory = sb.toString();
+        //String myDirectory = sb.toString();
+        String myDirectory = System.getProperty("user.dir");
         
         
         myProps = ManageConfigProperties.getConfigProperties(myDirectory, "config.properties");
-        String mediaLibrary = myProps.getProperty("mediaDirectory", "");
+        String mediaLibrary = myProps.getProperty("mediaDirectory", "myDirectory");
         System.out.println(mediaLibrary);
 
         if (myProps.containsKey("mydatetime")) {

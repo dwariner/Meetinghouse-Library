@@ -64,12 +64,20 @@ import com.opencsv.CSVReader;
 		  
 		  		  
 		  //Calling to get the properties file to find out what directory to download the media in.
-		  StringBuilder sb = new StringBuilder();
-	        //sb.append(System.getProperty("user.dir"));
-	        String myDirectory = sb.toString();
+		  //StringBuilder sb = new StringBuilder();
+	      //sb.append(System.getProperty("user.dir"));
+		  String mediaLibrary;
+	      String myDirectory = System.getProperty("user.dir");
 		  Properties myProps = ManageConfigProperties.getConfigProperties(myDirectory, "config.properties");
-	      String mediaLibrary = myProps.getProperty("mediaDirectory", "");
-	      System.out.println(mediaLibrary);
+	      String propLibrary = myProps.getProperty("mediaDirectory");
+	      
+	      if (propLibrary != null && !propLibrary.isEmpty()){
+	    	  mediaLibrary = propLibrary;
+	      } else {
+	    	  mediaLibrary = myDirectory;
+	      }
+	      
+	      System.out.println("Media Library:  " +propLibrary);
 	     
 		  
 		  
@@ -131,7 +139,24 @@ import com.opencsv.CSVReader;
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
 	            //URL link = new URL(row[3]);
                 
-                String dirSeparator = row[1].replaceAll("/", File.separator);
+                String foo = row[1];
+        		String[] split = foo.split("/");
+        		StringBuilder sbSplit = new StringBuilder();
+        		for (int i = 0; i < split.length; i++) {
+        			sbSplit.append(File.separator)
+        			.append(split[i]);
+        		    //if (i != split.length - 1) {
+        		    //    sb.append("");
+        		   // }
+        		}
+        		String dirSeparator = sbSplit.toString();
+        		
+        		System.out.println(dirSeparator);
+        		
+        		logInfo("dirSeparator:" + dirSeparator);
+                
+                //String dirSeparator = row[1].replaceAll("\\/", File.separator);
+                //logInfo("dirSeparator:" + dirSeparator);
                 
                 StringBuilder sbDir = new StringBuilder();
                    sbDir.append(mediaLibrary)
