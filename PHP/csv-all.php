@@ -2,6 +2,7 @@
 
 	include "". __DIR__ . "/csv-relief-society.php";
 	include "". __DIR__ . "/csv-come-follow-me.php";
+	include "". __DIR__ . "/csv-bible-videos.php";
 	include "". __DIR__ . "/csv-mormon-messages.php";
 
 	// This prints file full path and name
