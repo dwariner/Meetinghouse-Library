@@ -1,8 +1,19 @@
 <?php 
 
 	include "". __DIR__ . "/csv-relief-society.php";
+	include "". __DIR__ . "/csv-church-history.php";
 	include "". __DIR__ . "/csv-come-follow-me.php";
 	include "". __DIR__ . "/csv-bible-videos.php";
+	include "". __DIR__ . "/csv-family-history.php";
+	include "". __DIR__ . "/csv-2015-april-general-conference.php";
+	include "". __DIR__ . "/csv-2014-october-general-conference.php";
+	include "". __DIR__ . "/csv-2014-april-general-conference.php";
+	include "". __DIR__ . "/csv-mormon-channel-programs.php";
+	include "". __DIR__ . "/csv-prophets-and-apostles.php";
+	include "". __DIR__ . "/csv-hasten-the-work.php";
+	include "". __DIR__ . "/csv-seminary-and-institute.php";
+	include "". __DIR__ . "/csv-topics.php";
+	include "". __DIR__ . "/csv-youth.php";
 	include "". __DIR__ . "/csv-mormon-messages.php";
 
 	// This prints file full path and name
