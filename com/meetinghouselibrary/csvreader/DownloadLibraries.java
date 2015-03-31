@@ -7,6 +7,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.opencsv.CSVReader;
 
@@ -56,11 +57,9 @@ public class DownloadLibraries {
 	
 
 	private static void logInfo(String info) {
-		// open file
-		// append to file. with a date and time stamp.
-		// close file.
 		System.out.println(info);
 	}
+
 	void parseUsingOpenCSV(String filename) 
 	 {
 	 CSVReader reader;
@@ -72,7 +71,7 @@ public class DownloadLibraries {
 		  StringBuilder sb = new StringBuilder();
 	        sb.append(System.getProperty("user.dir"))
 	                .append(File.separator)
-	                .append("Media Index")
+	                .append("Libraries")
 	                .append(File.separator);
 	        String localDirectory = sb.toString();
 		  
@@ -115,7 +114,7 @@ public class DownloadLibraries {
 	                .append(row[0])
 	                .append(".csv");
 	        	String builtLocalFile = sbLF.toString();
-	        	logInfo("CSV Name:   " + builtLocalFile);
+	        	logInfo("CSV Name:    " + builtLocalFile);
                 
                 
                 logInfo("-------------");
@@ -158,7 +157,16 @@ public class DownloadLibraries {
 		           	threadPool.execute(download);
 		        }
 		        
-		        threadPool.shutdown();
+		      //Now I would like to wait until the threadPool is done working
+		      threadPool.shutdown();
+		      while (!threadPool.isTerminated()) {
+		            try {
+		                threadPool.awaitTermination(10, TimeUnit.MILLISECONDS);
+		            } catch (InterruptedException e) {
+		                e.printStackTrace();
+		            }
+		      }
+		        
 		  }
 	  catch (FileNotFoundException e) 
 	  {

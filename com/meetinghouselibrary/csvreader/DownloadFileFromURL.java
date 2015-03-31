@@ -31,10 +31,6 @@ public class DownloadFileFromURL {
 				//Properties myProps = ManageConfigProperties.getConfigProperties("Meetinghouse Library", "config.properties");
 			    //String homeFolderName = myProps.getProperty("homeFolderName", "");
 			    //System.out.println(homeFolderName);
-				
-				
-				
-				
         	
         } catch (IOException e) {
             e.printStackTrace();

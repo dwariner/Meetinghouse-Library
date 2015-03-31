@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import com.opencsv.CSVReader;
 
@@ -21,18 +22,18 @@ import com.opencsv.CSVReader;
 	       
 			  //String[] filenames = new String[]{"http://meetinghouselibrary.com/?wpdmdl=10334"
 			  //	  							, "http://meetinghouselibrary.com/?wpdmdl=10340"};// instantiate String array with file names
-			  DownloadFileFromURL.main(null);
-			  DownloadLibraries.main(null);
+			  //DownloadFileFromURL.main(null);
+			  //DownloadLibraries.main(null);
 			  //String filename = "/Users/dwariner/Downloads/all-videos-downloaded.csv";
 			  //"path"+File.Seperator+"to"+File.Seperator+"some"+File.Seperator+"file"
-			  File aDirectory = new File(System.getProperty("user.dir")+File.separator+"Media Index"+File.separator);
-			  String workingDir = System.getProperty("user.dir")+File.separator+"Media Index"+File.separator;
+			  File aDirectory = new File(System.getProperty("user.dir")+File.separator+"Libraries"+File.separator);
+			  String workingDir = System.getProperty("user.dir")+File.separator+"Libraries"+File.separator;
 			  //File aDirectory = new File(workingDir);
 			  System.out.println(aDirectory);
 			  String[] filesInDir = aDirectory.list();
 			  for ( int i=0; i<filesInDir.length; i++ )
 			    {
-			      System.out.println( "file: " + filesInDir[i] );
+			      //System.out.println( "file: " + filesInDir[i] );
 			    }
 						
 			  for (String filenameArg : filesInDir)
@@ -150,10 +151,23 @@ import com.opencsv.CSVReader;
         		   // }
         		}
         		String dirSeparator = sbSplit.toString();
+        		String cleanFileName;
         		
-        		System.out.println(dirSeparator);
+        		//cleanRow0 = row[0].replaceAll("[^sa-zA-Z0-9\\w+_\\-\\.]", "");
+        		cleanFileName = row[0].replaceAll(":", " -");
+        		cleanFileName = cleanFileName.replaceAll("\\?", "");
+        		cleanFileName = cleanFileName.replaceAll("\"", "");
+        		cleanFileName = cleanFileName.replaceAll("\\*", "");
+        		cleanFileName = cleanFileName.replaceAll("%", "");
+        		cleanFileName = cleanFileName.replaceAll("|", "");
+        		cleanFileName = cleanFileName.replaceAll("<", "");
+        		cleanFileName = cleanFileName.replaceAll(">", "");
+        		cleanFileName = cleanFileName.replaceAll(";", "");
+        		cleanFileName = cleanFileName.replaceAll("!", "");
         		
-        		logInfo("dirSeparator:" + dirSeparator);
+        		//System.out.println(dirSeparator);
+        		
+        		//logInfo("dirSeparator:" + dirSeparator);
                 
                 //String dirSeparator = row[1].replaceAll("\\/", File.separator);
                 //logInfo("dirSeparator:" + dirSeparator);
@@ -168,7 +182,7 @@ import com.opencsv.CSVReader;
 		        	sbLF.append(mediaLibrary)
 		                .append(dirSeparator)
 		                .append(File.separator)
-		                .append(row[0])
+		                .append(cleanFileName)
 		                .append(".")
 		                .append(row[5].substring(row[5].length()-3));
 		        String builtLocalFile = sbLF.toString();
@@ -189,7 +203,7 @@ import com.opencsv.CSVReader;
                 if (row[3] !=null && row[3].length()>0){
                 	//720p Download URL
                 	findLink = row[3];
-                logInfo("URL 720p:    " + row[3]);
+                //logInfo("URL 720p:    " + row[3]);
                 } else if (row[2] !=null && row[2].length()>0) {
                 	//1080p Download URL
                 	findLink = row[2];
@@ -243,7 +257,15 @@ import com.opencsv.CSVReader;
 		           	threadPool.execute(download);
 		           	}
 		        
-		        threadPool.shutdown();
+	          //Now I would like to wait until the threadPool is done working
+		      threadPool.shutdown();
+		      while (!threadPool.isTerminated()) {
+		            try {
+		                threadPool.awaitTermination(10, TimeUnit.MILLISECONDS);
+		            } catch (InterruptedException e) {
+		                e.printStackTrace();
+		            }
+		      }
 		  }
 	  catch (FileNotFoundException e) 
 	  {

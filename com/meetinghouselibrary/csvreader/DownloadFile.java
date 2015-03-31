@@ -43,16 +43,22 @@ public class DownloadFile implements Runnable {
 			t.printStackTrace();
 		}
 		 
-		 System.out.println("Finished");
+		logInfo("Downloaded:  " + localFile);
+		//System.out.println("Finished");
 		
 	}
 
-public static void main(String[] args) throws IOException {
-	URL url = new URL("http://media2.ldscdn.org/assets/scripture-and-lesson-support/the-life-of-jesus-christ-bible-videos-2014/2014-01-010-the-risen-lord-appears-to-the-apostles-720p-eng.mp4");
-	 File localFile = new File("C:\\Users\\dwariner\\Dropbox\\2014-01-010-the-risen-lord-appears-to-the-apostles-720p-eng.mp4"); //The file that will be saved on your computer
+	
+	private void logInfo(String info) {
+		System.out.println(info);
+	}
+	
+	public static void main(String[] args) throws IOException {
+		//URL url = new URL("http://media2.ldscdn.org/assets/scripture-and-lesson-support/the-life-of-jesus-christ-bible-videos-2014/2014-01-010-the-risen-lord-appears-to-the-apostles-720p-eng.mp4");
+		//File localFile = new File("C:\\Users\\dwariner\\Dropbox\\2014-01-010-the-risen-lord-appears-to-the-apostles-720p-eng.mp4"); //The file that will be saved on your computer
 
-	 DownloadFile download = new DownloadFile(localFile, url);
-	 new Thread(download).start();
+	 //DownloadFile download = new DownloadFile(localFile, url);
+	 //new Thread(download).start();
 	 
 }
 
