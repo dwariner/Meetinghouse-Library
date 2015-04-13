@@ -1,31 +1,4 @@
- <?php       
-
-        include "db.php";
-        // current directory
-        //echo getcwd() . "\n";
-
-        //Connecting to my database
-        mysql_connect($hostname, $username, $password) OR DIE ("Unable to connect to database! Please try again later.");
-        mysql_select_db($dbname);               
-
-
-        // output headers so that the file is downloaded rather than displayed
-        //header('Content-Type: text/csv; charset=utf-8');
-        //header('Content-Disposition: attachment; filename=pikaObs_'.date("Ymd").'.csv');            
-        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/2015 April General Conference.csv";
-        //echo $filepath;
-
-        // create a file pointer connected to the output stream
-        $output = fopen("$filepath", "w");
-
-
-        // output the column headings
-        fputcsv($output, array('Title','Video Directory','1080p URL','720p URL','360p URL','File Name 720p','Audio Directory','Audio URL','Document Directory','Document URL','Category','Release Date','YouTube URL','GUID'));
-
-        // fetch the data
-        mysql_connect($hostname, $username, $password);
-        mysql_select_db($dbname);
-        $rows = mysql_query('SELECT *
+SELECT *
 FROM (
     SELECT 
         wp_posts.post_title AS `Title`,
@@ -89,17 +62,10 @@ FROM (
     LEFT JOIN `wp_postmeta` ON ( `wp_posts`.`ID` = `wp_postmeta`.`post_id` )
 
     WHERE `wp_posts`.`post_status` = "publish"
-    AND `wp_posts`.`post_type` = "post"
+	AND `wp_posts`.`post_type` = "post"
     AND `wtt`.`taxonomy` = "category" 
-    AND `wt`.`slug`IN ("general-womens-session-march-2015"
-                      ,"saturday-morning-session-april-2015"
-                      ,"saturday-afternoon-session-april-2015"
-                      ,"priesthood-session-april-2015"
-                      ,"sunday-morning-session-april-2015"
-                      ,"sunday-afternoon-session-april-2015"
-                      ,"april-2015-general-conference-highlights"
-                      ,"april-2015-general-conference-video-quotes")
-    AND     (   SELECT COUNT(*) FROM wp_postmeta
+    AND `wt`.`slug`IN ("im-a-mormon")
+	AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"
                 AND wp_postmeta.meta_value != ""
@@ -109,11 +75,4 @@ FROM (
 
     ORDER BY `wt`.`name`
 
-) AS `t` WHERE 1 =1');
-
-        // loop over the rows, outputting them
-        while ($row = mysql_fetch_assoc($rows)) fputcsv($output, $row);
-
-        //exit;
-
-?>
+) AS `t` WHERE 1 =1

@@ -107,6 +107,6 @@ FROM (
         // loop over the rows, outputting them
         while ($row = mysql_fetch_assoc($rows)) fputcsv($output, $row);
 
-        //exit;
+        exit;
 
 ?>

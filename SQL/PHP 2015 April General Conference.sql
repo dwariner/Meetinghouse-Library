@@ -64,7 +64,14 @@ FROM (
     WHERE `wp_posts`.`post_status` = "publish"
 	AND `wp_posts`.`post_type` = "post"
     AND `wtt`.`taxonomy` = "category" 
-    AND `wt`.`slug`IN ("general-womens-session-march-2015")
+    AND `wt`.`slug`IN ("general-womens-session-march-2015"
+					  ,"saturday-morning-session-april-2015"
+                      ,"saturday-afternoon-session-april-2015"
+                      ,"priesthood-session-april-2015"
+                      ,"sunday-morning-session-april-2015"
+                      ,"sunday-afternoon-session-april-2015"
+                      ,"april-2015-general-conference-highlights"
+                      ,"april-2015-general-conference-video-quotes")
 	AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"

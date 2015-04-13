@@ -12,7 +12,7 @@
         // output headers so that the file is downloaded rather than displayed
         //header('Content-Type: text/csv; charset=utf-8');
         //header('Content-Disposition: attachment; filename=pikaObs_'.date("Ymd").'.csv');            
-        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/2015 April General Conference.csv";
+        $filepath = "" . __DIR__ . "/wp-content/uploads/download-manager-files/I'm a Mormon.csv";
         //echo $filepath;
 
         // create a file pointer connected to the output stream
@@ -91,14 +91,7 @@ FROM (
     WHERE `wp_posts`.`post_status` = "publish"
     AND `wp_posts`.`post_type` = "post"
     AND `wtt`.`taxonomy` = "category" 
-    AND `wt`.`slug`IN ("general-womens-session-march-2015"
-                      ,"saturday-morning-session-april-2015"
-                      ,"saturday-afternoon-session-april-2015"
-                      ,"priesthood-session-april-2015"
-                      ,"sunday-morning-session-april-2015"
-                      ,"sunday-afternoon-session-april-2015"
-                      ,"april-2015-general-conference-highlights"
-                      ,"april-2015-general-conference-video-quotes")
+    AND `wt`.`slug`IN ("im-a-mormon")
     AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"
