@@ -140,7 +140,7 @@ import com.opencsv.CSVReader;
 	            //DownloadFile dload = new DownloadFile("Cell Value: " + row[0] + "," + row[1] + "," + row[1] + "," + row[2]);
 	            //URL link = new URL(row[3]);
                 
-                String foo = row[1];
+                String foo = row[1].trim();
         		String[] split = foo.split("/");
         		StringBuilder sbSplit = new StringBuilder();
         		for (int i = 0; i < split.length; i++) {
@@ -154,7 +154,8 @@ import com.opencsv.CSVReader;
         		String cleanFileName;
         		
         		//cleanRow0 = row[0].replaceAll("[^sa-zA-Z0-9\\w+_\\-\\.]", "");
-        		cleanFileName = row[0].replaceAll(":", " -");
+        		cleanFileName = row[0].trim();
+        		cleanFileName = cleanFileName.replaceAll(":", " -");
         		cleanFileName = cleanFileName.replaceAll("\\?", "");
         		cleanFileName = cleanFileName.replaceAll("\"", "");
         		cleanFileName = cleanFileName.replaceAll("\\*", "");
@@ -184,7 +185,7 @@ import com.opencsv.CSVReader;
 		                .append(File.separator)
 		                .append(cleanFileName)
 		                .append(".")
-		                .append(row[5].substring(row[5].length()-3));
+		                .append(row[5].trim().substring(row[5].trim().length()-3));
 		        String builtLocalFile = sbLF.toString();
 		        logInfo("Title Name:  " + builtLocalFile);
 		        
@@ -192,7 +193,7 @@ import com.opencsv.CSVReader;
 		            sbFN.append(mediaLibrary)
 		                .append(dirSeparator)
 		                .append(File.separator)
-		                .append(row[5]);
+		                .append(row[5].trim());
 		        String builtLocalFileName = sbFN.toString();
 		        logInfo("File Name:   " + builtLocalFileName);
                 
@@ -202,15 +203,15 @@ import com.opencsv.CSVReader;
 				//If 720p link is blank then move to 1080p then if blank then 360p video download
                 if (row[3] !=null && row[3].length()>0){
                 	//720p Download URL
-                	findLink = row[3];
+                	findLink = row[3].trim();
                 //logInfo("URL 720p:    " + row[3]);
                 } else if (row[2] !=null && row[2].length()>0) {
                 	//1080p Download URL
-                	findLink = row[2];
+                	findLink = row[2].trim();
                 logInfo("URL 1080p:   " + row[2]);
                 } else {
                 	//360p Download URL
-                	findLink = row[4];
+                	findLink = row[4].trim();
                 logInfo("URL 360p:    " + row[4]);
                 }
 				URL link = new URL(findLink);
