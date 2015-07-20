@@ -64,18 +64,7 @@ FROM (
     WHERE `wp_posts`.`post_status` = "publish"
 	AND `wp_posts`.`post_type` = "post"
     AND `wtt`.`taxonomy` = "category" 
-    AND `wt`.`slug`IN ("january-come-follow-me"
-					  ,"february-come-follow-me"
-					  ,"march-come-follow-me"
-					  ,"april-come-follow-me"
-					  ,"may-prophets-and-revelation-come-follow-me"
-					  ,"june-priesthood-and-priesthood-keys-come-follow-me"
-					  ,"july-ordinances-and-covenants-come-follow-me"
-					  ,"august-come-follow-me"
-					  ,"september-come-follow-me"
-					  ,"october-come-follow-me"
-					  ,"november-come-follow-me"
-					  ,"december-come-follow-me")
+    AND `wt`.`slug`IN ("new-testament")
 	AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"
