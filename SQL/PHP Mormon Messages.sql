@@ -70,7 +70,8 @@ FROM (
                       ,"2012-mormon-messages"
                       ,"2011-mormon-messages"
                       ,"2010-mormon-messages"
-                      ,"2009-mormon-messages")
+                      ,"2009-mormon-messages"
+                      ,"2008-mormon-messages")
 	AND     (   SELECT COUNT(*) FROM wp_postmeta
                 WHERE wp_postmeta.post_id = wp_posts.ID 
                 AND wp_postmeta.meta_key = "release_date"
