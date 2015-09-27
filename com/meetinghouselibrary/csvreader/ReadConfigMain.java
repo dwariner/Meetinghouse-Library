@@ -17,5 +17,11 @@ public class ReadConfigMain {
 		//properties.getPropValues(mediaDirectory)
 		//System.out.println( ": " + properties.getPropValues());
 	}
+	
+	public void getMainProperties() {
+		
+		
+		
+	}
 
 }

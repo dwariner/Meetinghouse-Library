@@ -156,6 +156,7 @@ import com.opencsv.CSVReader;
         		//cleanRow0 = row[0].replaceAll("[^sa-zA-Z0-9\\w+_\\-\\.]", "");
         		cleanFileName = row[0].trim();
         		cleanFileName = cleanFileName.replaceAll(":", " -");
+        		cleanFileName = cleanFileName.replaceAll("—", " - ");
         		cleanFileName = cleanFileName.replaceAll("\\?", "");
         		cleanFileName = cleanFileName.replaceAll("\"", "");
         		cleanFileName = cleanFileName.replaceAll("\\*", "");
