@@ -5,6 +5,7 @@
 	include "". __DIR__ . "/csv-come-follow-me.php";
 	include "". __DIR__ . "/csv-bible-videos.php";
 	include "". __DIR__ . "/csv-family-history.php";
+	include "". __DIR__ . "/csv-2015-october-general-conference.php";
 	include "". __DIR__ . "/csv-2015-april-general-conference.php";
 	include "". __DIR__ . "/csv-2014-october-general-conference.php";
 	include "". __DIR__ . "/csv-2014-april-general-conference.php";
